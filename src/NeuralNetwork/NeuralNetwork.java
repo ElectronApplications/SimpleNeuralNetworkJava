@@ -1,5 +1,7 @@
 package NeuralNetwork;
 
+import com.google.gson.Gson;
+
 public class NeuralNetwork {
     private Neuron[][] neurons;
 
@@ -9,7 +11,7 @@ public class NeuralNetwork {
         learningRate = rate;
     }
 
-    public NeuralNetwork(int... layers) {
+    public NeuralNetwork(int... layers) {    
         neurons = new Neuron[layers.length][layers[0]];
         for (int i = 0; i < layers.length; i++) {
             neurons[i] = new Neuron[layers[i]+1];
@@ -22,6 +24,20 @@ public class NeuralNetwork {
             }
         }
         
+    }
+
+    public static NeuralNetwork deserialize(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, NeuralNetwork.class);
+    }
+
+    public static String serialize(NeuralNetwork network) {
+        Gson gson = new Gson();
+        return gson.toJson(network);
+    }
+
+    public String serialize() {
+        return serialize(this);
     }
 
     public double[] predict(double inputs[]) {
