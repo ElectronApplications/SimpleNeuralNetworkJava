@@ -3,7 +3,7 @@ package examples.Gradient;
 public class Point {
     int x;
     int y;
-    int type;
+    int type; //0 - Red, 1 - Blue
 
     Point(int x, int y, int type) {
         this.x = x;
