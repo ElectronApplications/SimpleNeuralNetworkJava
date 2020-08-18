@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'electronapps.nntesting'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+
+dependencies {
+    compile 'junit:junit:4.12'
+    compile 'org.processing:core:3.3.7'
+}
