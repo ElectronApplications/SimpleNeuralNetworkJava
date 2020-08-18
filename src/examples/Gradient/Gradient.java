@@ -1,0 +1,102 @@
+package examples.Gradient;
+
+import processing.core.PApplet;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import NeuralNetwork.NeuralNetwork;
+
+public class Gradient extends PApplet {
+    static NeuralNetwork network;
+    static List<Point> points = new ArrayList<>();
+
+    static int width = 1024;
+    static int height = 512;
+    static int pixelSize = 4;
+
+    static boolean killed = false;
+
+    public static void main(String[] args) {
+        network = new NeuralNetwork(2, 4, 4, 2);
+        network.setLearningRate(0.01);
+
+        new Thread(() -> {
+            while(true) {
+                if(points.size() != 0 && !killed) {
+                    for (int i = 0; i < 100000; i++) {
+                        final Point point = points.get((int) (Math.random()*points.size()));
+                        final double input[] = {(double) point.x/width-0.5, (double) point.y/height-0.5};
+                        double output[];
+                        if(point.type == 0)
+                            output = new double[]{1, 0};
+                        else
+                            output = new double[]{0, 1};
+                        network.train(input, output);
+                    }
+                }
+                try {
+                    Thread.sleep(1);
+                } catch (final InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        PApplet.main(Gradient.class);
+    }
+
+    public void settings() {
+        size(width, height);
+    }
+
+    public void draw() {
+        if(killed)
+            network.killWeight();
+
+        fill(255);
+        rect(0, 0, width, height);
+
+        for (int i = 0; i < width/pixelSize; i++) {
+            for (int j = 0; j < height/pixelSize; j++) {
+                final double[] answer = network.predict(new double[]{(double) i/width*pixelSize-0.5, (double) j/height*pixelSize-0.5});
+                fill((float) answer[0]*255, 0, (float) answer[1]*255);
+                stroke((float) answer[0]*255, 0, (float) answer[1]*255);
+                rectMode(1);
+                rect(i*pixelSize-pixelSize, j*pixelSize-pixelSize, i*pixelSize, j*pixelSize);
+            }
+        }
+
+        for (final Point point : points) {
+            if(point.type == 0)
+                fill(255, 0, 0);
+            else
+                fill(0, 0, 255);
+
+            stroke(0);
+            ellipseMode(CENTER);
+            ellipse(point.x, point.y, 10, 10);
+        }
+
+    }
+
+    public void mousePressed(final MouseEvent event) {
+        int type = 0;
+        if(event.getButton() == RIGHT)
+            type = 1;
+
+        points.add(new Point(event.getX(), event.getY(), type));
+    }
+
+    public void keyPressed(final KeyEvent event) {
+        if(event.getKey() == 'r')
+            network.mutate(0.1);
+        else if(event.getKey() == 'k')
+            killed = true;
+        else if(event.getKey() == 'a')
+            killed = false;
+    }
+
+}
