@@ -20,7 +20,7 @@ public class Gradient extends PApplet {
     static boolean killed = false;
 
     public static void main(String[] args) {
-        network = new NeuralNetwork(2, 4, 4, 2);
+        network = new NeuralNetwork(2, 8, 2);
         network.setLearningRate(0.01);
 
         new Thread(() -> {
