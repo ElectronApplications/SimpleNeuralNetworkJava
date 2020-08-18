@@ -65,7 +65,7 @@ public class Gradient extends PApplet {
                 fill((float) answer[0]*255, 0, (float) answer[1]*255);
                 stroke((float) answer[0]*255, 0, (float) answer[1]*255);
                 rectMode(1);
-                rect(i*pixelSize-pixelSize, j*pixelSize-pixelSize, i*pixelSize, j*pixelSize);
+                rect(i*pixelSize, j*pixelSize, i*pixelSize+pixelSize, j*pixelSize+pixelSize);
             }
         }
 
