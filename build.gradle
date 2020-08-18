@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'electronapps.nntesting'
+group 'electronapps.neuralnetwork'
 version '1.0-SNAPSHOT'
 
 repositories {
