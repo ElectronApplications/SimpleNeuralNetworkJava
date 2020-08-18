@@ -28,7 +28,7 @@ public class Gradient extends PApplet {
                 if(points.size() != 0 && !killed) {
                     for (int i = 0; i < 100000; i++) {
                         final Point point = points.get((int) (Math.random()*points.size()));
-                        final double input[] = {(double) point.x/width-0.5, (double) point.y/height-0.5};
+                        final double input[] = {(double) point.x/width, (double) point.y/height};
                         double output[];
                         if(point.type == 0)
                             output = new double[]{1, 0};
@@ -61,7 +61,7 @@ public class Gradient extends PApplet {
 
         for (int i = 0; i < width/pixelSize; i++) {
             for (int j = 0; j < height/pixelSize; j++) {
-                final double[] answer = network.predict(new double[]{(double) i/width*pixelSize-0.5, (double) j/height*pixelSize-0.5});
+                final double[] answer = network.predict(new double[]{(double) i/width*pixelSize, (double) j/height*pixelSize});
                 fill((float) answer[0]*255, 0, (float) answer[1]*255);
                 stroke((float) answer[0]*255, 0, (float) answer[1]*255);
                 rectMode(1);
