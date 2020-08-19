@@ -18,7 +18,7 @@ public class Gradient extends PApplet {
     static int pixelSize = 8;
 
     public static void main(String[] args) {
-        network = new NeuralNetwork(2, 16, 16, 3);
+        network = new NeuralNetwork(2, 16, 3);
         network.setLearningRate(0.01);
 
         new Thread(() -> {
@@ -94,7 +94,7 @@ public class Gradient extends PApplet {
 
     public void keyPressed(final KeyEvent event) {
         if(event.getKey() == 'r')
-            network = new NeuralNetwork(2, 16, 16, 3);
+            network = new NeuralNetwork(2, 16, 3);
     }
 
 }
