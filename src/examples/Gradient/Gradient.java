@@ -17,16 +17,14 @@ public class Gradient extends PApplet {
     static int height = 512;
     static int pixelSize = 4;
 
-    static boolean killed = false;
-
     public static void main(String[] args) {
         network = new NeuralNetwork(2, 16, 3);
         network.setLearningRate(0.01);
 
         new Thread(() -> {
             while(true) {
-                if(points.size() != 0 && !killed) {
-                    for (int i = 0; i < 100000; i++) {
+                if(points.size() != 0) {
+                    for (int i = 0; i < 10000; i++) {
                         final Point point = points.get((int) (Math.random()*points.size()));
                         final double input[] = {(double) point.x/width, (double) point.y/height};
                         double output[];
@@ -55,9 +53,6 @@ public class Gradient extends PApplet {
     }
 
     public void draw() {
-        if(killed)
-            network.killWeight();
-
         fill(255);
         rect(0, 0, width, height);
 
@@ -87,22 +82,18 @@ public class Gradient extends PApplet {
     }
 
     public void mousePressed(final MouseEvent event) {
-        int type = 0;
-        if(event.getButton() == RIGHT)
-            type = 1;
-        else if(event.getButton() == CENTER)
-            type = 2;    
+        int type = 0; //RED
+        if(event.getButton() == CENTER)
+            type = 1; //GREEN
+        else if(event.getButton() == RIGHT)
+            type = 2; //BLUE
 
         points.add(new Point(event.getX(), event.getY(), type));
     }
 
     public void keyPressed(final KeyEvent event) {
         if(event.getKey() == 'r')
-            network.mutate(0.1);
-        else if(event.getKey() == 'k')
-            killed = true;
-        else if(event.getKey() == 'a')
-            killed = false;
+            network = new NeuralNetwork(2, 16, 3);
     }
 
 }
