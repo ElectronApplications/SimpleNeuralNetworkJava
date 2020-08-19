@@ -148,7 +148,6 @@ public class NeuralNetwork {
     //For fun
     public void killWeight() {
         int layer = intRandom(0, neurons.length-1);
-
         int neuron = intRandom(0, neurons[layer].length);
         int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
         if(weight == 0)
