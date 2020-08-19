@@ -27,13 +27,11 @@ public class NeuralNetwork {
     }
 
     public static NeuralNetwork deserialize(String json) {
-        Gson gson = new Gson();
-        return gson.fromJson(json, NeuralNetwork.class);
+        return new Gson().fromJson(json, NeuralNetwork.class);
     }
 
     public static String serialize(NeuralNetwork network) {
-        Gson gson = new Gson();
-        return gson.toJson(network);
+        return new Gson().toJson(network);
     }
 
     public String serialize() {
@@ -141,12 +139,9 @@ public class NeuralNetwork {
 
     public void mutate(double mutateFactor) {
         int layer = intRandom(0, neurons.length-1);
-
         int neuron = intRandom(0, neurons[layer].length);
         int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
-        double mutation = neurons[layer][neuron].getWeight(weight) + (neurons[layer][neuron].getWeight(weight)/mutateFactor);
-        if(mutation > 1)
-            mutation = 1 / mutation;
+        double mutation = neurons[layer][neuron].getWeight(weight) + ((Math.random() > 0.5) ? mutateFactor : -mutateFactor);
         neurons[layer][neuron].setWeight(weight, mutation);
     }
 
