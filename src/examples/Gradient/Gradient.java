@@ -24,7 +24,7 @@ public class Gradient extends PApplet {
         new Thread(() -> {
             while(true) {
                 if(points.size() != 0) {
-                    for (int i = 0; i < 10000; i++) {
+                    for (int i = 0; i < 500; i++) {
                         final Point point = points.get((int) (Math.random()*points.size()));
                         final double input[] = {(double) point.x/width, (double) point.y/height};
                         double output[];
