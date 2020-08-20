@@ -11,7 +11,7 @@ public class NeuralNetwork {
         learningRate = rate;
     }
 
-    public NeuralNetwork(int... layers) {    
+    public NeuralNetwork(int... layers) {
         neurons = new Neuron[layers.length][layers[0]];
         for (int i = 0; i < layers.length; i++) {
             neurons[i] = new Neuron[layers[i]+1];
@@ -123,8 +123,7 @@ public class NeuralNetwork {
 
         neurons = tempNeurons;
     }
-
-    //max number can't be achieved
+    
     private int intRandom(int min, int max) {
         return (int) (Math.random()*(max-min)+min);
     }
@@ -146,12 +145,12 @@ public class NeuralNetwork {
     }
 
     //For fun
-    public void killWeight() {
+    public void eraseRandomWeight() {
         int layer = intRandom(0, neurons.length-1);
         int neuron = intRandom(0, neurons[layer].length);
         int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
         if(weight == 0)
-            killWeight();
+            eraseRandomWeight();
         neurons[layer][neuron].setWeight(weight, 0);
     }
 
