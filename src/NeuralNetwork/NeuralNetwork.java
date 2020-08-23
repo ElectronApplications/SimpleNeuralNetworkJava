@@ -26,8 +26,9 @@ public class NeuralNetwork implements Cloneable {
         
     }
 
-    public Object clone() throws CloneNotSupportedException { 
-        return super.clone(); 
+    public NeuralNetwork copy() {
+        //FIXME
+        return deserialize(serialize());
     }
 
     public static NeuralNetwork deserialize(String json) {
