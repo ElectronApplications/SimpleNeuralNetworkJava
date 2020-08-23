@@ -140,7 +140,7 @@ public class NeuralNetwork {
         int layer = intRandom(0, neurons.length-1);
         int neuron = intRandom(0, neurons[layer].length);
         int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
-        double mutation = neurons[layer][neuron].getWeight(weight) + ((Math.random() > 0.5) ? mutateFactor : -mutateFactor);
+        double mutation = neurons[layer][neuron].getWeight(weight) + ((Math.random()*2)-1)*mutateFactor;
         neurons[layer][neuron].setWeight(weight, mutation);
     }
 
