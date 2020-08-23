@@ -7,7 +7,7 @@ public class Neuron {
         this.weights = new double[weights];
 
         for (int i = 0; i < weights; i++) {
-            this.weights[i] = Math.random();
+            this.weights[i] = (Math.random()*2)-1;
         }
     }
 
