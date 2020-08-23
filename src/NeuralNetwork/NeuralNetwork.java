@@ -2,7 +2,7 @@ package NeuralNetwork;
 
 import com.google.gson.Gson;
 
-public class NeuralNetwork {
+public class NeuralNetwork implements Cloneable {
     private Neuron[][] neurons;
 
     private double learningRate = 0.1;
@@ -24,6 +24,10 @@ public class NeuralNetwork {
             }
         }
         
+    }
+
+    public Object clone() throws CloneNotSupportedException { 
+        return super.clone(); 
     }
 
     public static NeuralNetwork deserialize(String json) {
