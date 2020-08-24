@@ -27,7 +27,6 @@ public class NeuralNetwork {
     }
 
     public NeuralNetwork copy() {
-        //FIXME
         return deserialize(serialize());
     }
 
@@ -147,16 +146,6 @@ public class NeuralNetwork {
         int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
         double mutation = neurons[layer][neuron].getWeight(weight) + ((Math.random()*2)-1)*mutateFactor;
         neurons[layer][neuron].setWeight(weight, mutation);
-    }
-
-    //For fun
-    public void eraseRandomWeight() {
-        int layer = intRandom(0, neurons.length-1);
-        int neuron = intRandom(0, neurons[layer].length);
-        int weight = intRandom(0, neurons[layer][neuron].getWeightsAmount());
-        if(weight == 0)
-            eraseRandomWeight();
-        neurons[layer][neuron].setWeight(weight, 0);
     }
 
 }
