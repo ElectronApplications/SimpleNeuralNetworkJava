@@ -87,7 +87,7 @@ public class NeuralNetwork {
     public void train(double input[], double output[]) {
         double networkOutput[] = predict(input);
 
-        double errors[][] = new double[neurons.length][neurons[0].length];
+        double errors[][] = new double[neurons.length][neurons[neurons.length-1].length];
 
         for (int i = 0; i < neurons[neurons.length-1].length-1; i++) {
             errors[neurons.length-1][i] = output[i] - networkOutput[i];
