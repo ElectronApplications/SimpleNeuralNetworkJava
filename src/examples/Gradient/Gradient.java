@@ -53,8 +53,7 @@ public class Gradient extends PApplet {
     }
 
     public void draw() {
-        fill(255);
-        rect(0, 0, width, height);
+        clear();
 
         for (int i = 0; i < width/pixelSize; i++) {
             for (int j = 0; j < height/pixelSize; j++) {
