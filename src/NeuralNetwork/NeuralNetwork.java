@@ -87,20 +87,7 @@ public class NeuralNetwork {
     public void train(double input[], double output[]) {
         double networkOutput[] = predict(input);
 
-        double errors[][] = new double[neurons.length][neurons[neurons.length-1].length];
-
-        for (int i = 0; i < neurons[neurons.length-1].length-1; i++) {
-            errors[neurons.length-1][i] = output[i] - networkOutput[i];
-        }
-        
-        for (int i = neurons.length-2; i > 0; i--) {
-            errors[i] = new double[neurons[i].length];
-            for (int j = 0; j < neurons[i].length; j++) { 
-                for (int k = 0; k < neurons[i][j].getWeightsAmount(); k++) {
-                    errors[i][j] += neurons[i][j].getWeight(k) * errors[i+1][k];
-                } 
-            }
-        }
+        double errors[][] = perform(output, networkOutput);
 
         Neuron tempNeurons[][] = neurons;
         input = addBias(input);
@@ -126,6 +113,25 @@ public class NeuralNetwork {
         }
 
         neurons = tempNeurons;
+    }
+
+    public double[][] perform(double[] output, double[] networkOutput) {
+        double errors[][] = new double[neurons.length][neurons[neurons.length-1].length];
+
+        for (int i = 0; i < neurons[neurons.length-1].length-1; i++) {
+            errors[neurons.length-1][i] = output[i] - networkOutput[i];
+        }
+        
+        for (int i = neurons.length-2; i > 0; i--) {
+            errors[i] = new double[neurons[i].length];
+            for (int j = 0; j < neurons[i].length; j++) { 
+                for (int k = 0; k < neurons[i][j].getWeightsAmount(); k++) {
+                    errors[i][j] += neurons[i][j].getWeight(k) * errors[i+1][k];
+                } 
+            }
+        }
+
+        return errors;
     }
     
     private int intRandom(int min, int max) {
