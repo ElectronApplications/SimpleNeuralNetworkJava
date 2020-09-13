@@ -115,11 +115,11 @@ public class NeuralNetwork {
         neurons = tempNeurons;
     }
 
-    public double[][] perform(double[] output, double[] networkOutput) {
+    public double[][] perform(double[] targetOutput, double[] networkOutput) {
         double errors[][] = new double[neurons.length][neurons[neurons.length-1].length];
 
         for (int i = 0; i < neurons[neurons.length-1].length-1; i++) {
-            errors[neurons.length-1][i] = output[i] - networkOutput[i];
+            errors[neurons.length-1][i] = targetOutput[i] - networkOutput[i];
         }
         
         for (int i = neurons.length-2; i > 0; i--) {
