@@ -1,5 +1,7 @@
 package NeuralNetwork;
 
+import java.util.Arrays;
+
 import com.google.gson.Gson;
 
 public class NeuralNetwork {
@@ -76,10 +78,7 @@ public class NeuralNetwork {
     }
 
     private double[] addBias(double[] neurons) {
-        double bias[] = new double[neurons.length+1];
-        for (int i = 0; i < neurons.length; i++) {
-            bias[i] = neurons[i];
-        }
+        double bias[] = Arrays.copyOf(neurons, neurons.length+1);
         bias[neurons.length] = 1;
         return bias;
     }
