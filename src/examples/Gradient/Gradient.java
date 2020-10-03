@@ -21,6 +21,7 @@ public class Gradient extends PApplet {
         network = new NeuralNetwork(2, 16, 3);
         network.setLearningRate(0.01);
 
+        //Start the new thread that will train the neural network
         new Thread(() -> {
             while(true) {
                 if(points.size() != 0) {
@@ -28,11 +29,11 @@ public class Gradient extends PApplet {
                         final Point point = points.get((int) (Math.random()*points.size()));
                         final double input[] = {(double) point.x/width, (double) point.y/height};
                         double output[];
-                        if(point.type == 0)
+                        if(point.type == 0) //Red
                             output = new double[]{1, 0, 0};
-                        else if(point.type == 1)
+                        else if(point.type == 1) //Green
                             output = new double[]{0, 1, 0};
-                        else
+                        else //Blue
                             output = new double[]{0, 0, 1};    
                         network.train(input, output);
                     }
@@ -66,11 +67,11 @@ public class Gradient extends PApplet {
         }
 
         for (final Point point : points) {
-            if(point.type == 0)
+            if(point.type == 0) //Red
                 fill(255, 0, 0);
-            else if(point.type == 1)
+            else if(point.type == 1) //Green
                 fill(0, 255, 0);
-            else
+            else //Blue
                 fill(0, 0, 255);
 
             stroke(0);
@@ -93,7 +94,7 @@ public class Gradient extends PApplet {
 
     public void keyPressed(final KeyEvent event) {
         if(event.getKey() == 'r')
-            network = new NeuralNetwork(2, 16, 3);
+            network = new NeuralNetwork(2, 16, 3); //Recreate the neural network
     }
 
 }

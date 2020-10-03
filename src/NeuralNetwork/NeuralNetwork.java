@@ -9,10 +9,16 @@ public class NeuralNetwork {
 
     private double learningRate = 0.1;
 
+    /**
+     * @param rate Learning rate
+     */
     public void setLearningRate(double rate) {
         learningRate = rate;
     }
 
+    /**
+     * @param layers The amount of neurons on each layer
+     */
     public NeuralNetwork(int... layers) {
         neurons = new Neuron[layers.length][layers[0]];
         for (int i = 0; i < layers.length; i++) {
@@ -44,6 +50,10 @@ public class NeuralNetwork {
         return serialize(this);
     }
 
+    /**
+     * @param inputs Inputs array
+     * @return Outputs array
+     */
     public double[] predict(double inputs[]) {
         return predictCorrected(addBias(inputs));
     }
@@ -83,6 +93,10 @@ public class NeuralNetwork {
         return bias;
     }
 
+    /**
+     * @param input Inputs array
+     * @param output Outputs that you want to get from the neural network
+     */
     public void train(double input[], double output[]) {
         double networkOutput[] = predict(input);
 
