@@ -1,6 +1,7 @@
 package examples.Gradient;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -15,13 +16,13 @@ public class Gradient extends PApplet {
 
     static int width = 1024;
     static int height = 512;
-    static int pixelSize = 8;
+    static int pixelSize = 4;
 
     public static void main(String[] args) {
         network = new NeuralNetwork(2, 16, 3);
         network.setLearningRate(0.01);
 
-        //Start the new thread that will train the neural network
+        //Start new thread that will train the neural network
         new Thread(() -> {
             while(true) {
                 if(points.size() != 0) {
@@ -56,15 +57,19 @@ public class Gradient extends PApplet {
     public void draw() {
         clear();
 
-        for (int i = 0; i < width/pixelSize; i++) {
-            for (int j = 0; j < height/pixelSize; j++) {
+        PImage frame = createImage(width/pixelSize, height/pixelSize, RGB);
+        frame.loadPixels();
+
+        for(int i = 0; i < width/pixelSize; i++) {
+            for(int j = 0; j < height/pixelSize; j++) {
                 final double[] answer = network.predict(new double[]{(double) i/width*pixelSize, (double) j/height*pixelSize});
-                fill((float) answer[0]*255, (float) answer[1]*255, (float) answer[2]*255);
-                stroke((float) answer[0]*255, (float) answer[1]*255, (float) answer[2]*255);
-                rectMode(1);
-                rect(i*pixelSize, j*pixelSize, i*pixelSize+pixelSize, j*pixelSize+pixelSize);
+                frame.pixels[j*(width/pixelSize) + i] = color((int) (answer[0]*255), (int) (answer[1]*255), (int) (answer[2]*255));
             }
         }
+
+        frame.resize(width, height);
+        frame.updatePixels();
+        image(frame, 0, 0);
 
         for (final Point point : points) {
             if(point.type == 0) //Red
