@@ -11,12 +11,12 @@ import java.util.List;
 import NeuralNetwork.NeuralNetwork;
 
 public class Gradient extends PApplet {
+    final static int width = 1024;
+    final static int height = 512;
+    final static int pixelSize = 4;
+
     static NeuralNetwork network;
     static List<Point> points = new ArrayList<>();
-
-    static int width = 1024;
-    static int height = 512;
-    static int pixelSize = 4;
 
     public static void main(String[] args) {
         network = new NeuralNetwork(2, 16, 3);
