@@ -128,6 +128,11 @@ public class NeuralNetwork {
         neurons = tempNeurons;
     }
 
+    /**
+     * @param targetOutput Expected output
+     * @param networkOutput Actual NN output
+     * @return Array of neurons' errors
+     */
     public double[][] perform(double[] targetOutput, double[] networkOutput) {
         double errors[][] = new double[neurons.length][neurons[neurons.length-1].length];
 
