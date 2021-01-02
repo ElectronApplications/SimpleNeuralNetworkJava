@@ -20,42 +20,64 @@ public class Train {
             }
             network = NeuralNetwork.deserialize(networkJson);
         } catch (FileNotFoundException e) {
-            network = new NeuralNetwork(28 * 28, 512, 10);
+            network = new NeuralNetwork(28 * 28, 256, 256, 10);
+            network.setLearningRate(0.01);
         }
 
         try {
-            Scanner dataset = new Scanner(new FileReader("./src/examples/Digits/digit-recognizer/train.csv"));
+            Scanner trainDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_train.csv"));
+            Scanner testDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_test.csv"));
 
             int line = 0;
-            while (dataset.hasNext()) {
+            while (trainDataset.hasNext()) {
                 line++;
-                String[] data = dataset.next().split(",");
+                
+                trainNetwork(trainDataset);
 
-                int outputDigit = Integer.parseInt(data[0]);
-                double output[] = new double[10];
-                output[outputDigit] = 1;
-
-                double[] pixels = new double[28*28];
-                for(int i = 1; i <= 28*28; i++) {
-                    pixels[i-1] = Double.parseDouble(data[i]) / 256;
-                }
-
-                if(line % 1000 == 0) {
+                if(line % 500 == 0)
+                    testNetwork(testDataset);
+                    
+                if(line % 2000 == 0)
                     saveNetwork();
-                    double[][] errors = network.perform(output, network.predict(pixels));
-                    System.out.println("Line: " + line);
-                    System.out.println("Errors:");
-                    for(int i = 0; i < 10; i++) {
-                        System.out.println(i + " - " + errors[2][i]);
-                    }
                 }
-
-                network.train(pixels, output);
-            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void trainNetwork(Scanner dataset) {
+        String[] data = dataset.next().split(",");
+
+        int outputDigit = Integer.parseInt(data[0]);
+        double output[] = new double[10];
+        output[outputDigit] = 1;
+
+        double[] pixels = new double[28*28];
+        for(int i = 1; i <= 28*28; i++) {
+            pixels[i-1] = Double.parseDouble(data[i]) / 256;
+        }
+
+        network.train(pixels, output);
+    }
+
+    public static void testNetwork(Scanner dataset) {
+        String[] data = dataset.next().split(",");
+        int outputDigit = Integer.parseInt(data[0]);
+        double[] output = new double[10];
+        output[outputDigit] = 1;
+
+        double[] pixels = new double[28*28];
+        for(int i = 1; i <= 28*28; i++) {
+            pixels[i-1] = Double.parseDouble(data[i]) / 256;
+        }
+
+        double[][] errors = network.perform(output, network.predict(pixels));
+        double error = 0;
+        for(double i : errors[3])
+            error += Math.abs(i);
+
+        System.out.println("Testing Error: " + error);
     }
 
     public static void saveNetwork() throws IOException {

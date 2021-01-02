@@ -1,8 +1,10 @@
-\bin
-\.gradle
-\.vscode
-\.settings
-\.classpath
-\.project
+bin
+.gradle
+.vscode
+.settings
+.classpath
+.project
 
 network.json
+mnist_test.csv
+mnist_train.csv

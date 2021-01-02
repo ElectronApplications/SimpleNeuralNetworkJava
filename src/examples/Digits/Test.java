@@ -42,7 +42,7 @@ public class Test extends PApplet {
         double[] inputs = new double[28*28];
         for (int i = 0; i < 28; i++) {
             for (int j = 0; j < 28; j++) {
-                inputs[j*28 + i] = pixels[i][j];
+                inputs[j*28 + i] = (double) pixels[i][j] / 256;
             }
         }
 
