@@ -47,13 +47,13 @@ public class Train {
                 
                 trainNetwork(trainDataset);
 
-                if(line % 500 == 0)
+                if(line % 6 == 0)
                     testNetwork(testDataset);
                     
-                if(line % 2000 == 0)
+                if(line % 5000 == 0)
                     saveNetwork();
 
-                if(line % 1000 == 0)
+                if(line % 500 == 0)
                     System.out.print("\r[" + "*".repeat(line/600) + " ".repeat((60000-line)/600) + "]. Average testing error: " + avgError/tests);
             
             }
