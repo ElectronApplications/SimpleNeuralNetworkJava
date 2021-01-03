@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import NeuralNetwork.IActivationFunction;
 import NeuralNetwork.NeuralNetwork;
 
 public class Train {
@@ -27,16 +26,6 @@ public class Train {
             network = new NeuralNetwork(28 * 28, 256, 256, 10);
             network.setLearningRate(0.00005);
         }
-
-        //ReLU
-        network.setActivationFunction(new IActivationFunction(){
-            public double activation(double x) {
-                return x < 0 ? 0 : x;
-            }
-            public double derivative(double y) {
-                return y < 0 ? 0 : 1;
-            }
-        });
 
         while(avgError > 0.1 || avgError <= prevAvgError) {
             avgError = 0;
