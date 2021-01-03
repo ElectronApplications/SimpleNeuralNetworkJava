@@ -44,7 +44,6 @@ public class Train {
             trainDataset();
             avgError /= tests;
             prevAvgError = avgError;
-            System.out.println("Trained! Average testing error: " + avgError);
         }
     }
 
