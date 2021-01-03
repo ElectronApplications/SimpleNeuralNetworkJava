@@ -6,10 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import NeuralNetwork.IActivationFunction;
 import NeuralNetwork.NeuralNetwork;
 
 public class Train {
     static NeuralNetwork network;
+    static double avgError = 1;
+    static double prevAvgError = 2;
+    static int tests;
 
     public static void main(String[] args) {
         try {
@@ -21,9 +25,30 @@ public class Train {
             network = NeuralNetwork.deserialize(networkJson);
         } catch (FileNotFoundException e) {
             network = new NeuralNetwork(28 * 28, 256, 256, 10);
-            network.setLearningRate(0.01);
+            network.setLearningRate(0.00005);
         }
 
+        //ReLU
+        network.setActivationFunction(new IActivationFunction(){
+            public double activation(double x) {
+                return x < 0 ? 0 : x;
+            }
+            public double derivative(double y) {
+                return y < 0 ? 0 : 1;
+            }
+        });
+
+        while(avgError > 0.1 || avgError <= prevAvgError) {
+            avgError = 0;
+            tests = 0;
+            trainDataset();
+            avgError /= tests;
+            prevAvgError = avgError;
+            System.out.println("Trained! Average testing error: " + avgError);
+        }
+    }
+
+    public static void trainDataset() {
         try {
             Scanner trainDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_train.csv"));
             Scanner testDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_test.csv"));
@@ -39,7 +64,12 @@ public class Train {
                     
                 if(line % 2000 == 0)
                     saveNetwork();
-                }
+
+                if(line % 1000 == 0)
+                    System.out.print("\r[" + "*".repeat(line/600) + " ".repeat((60000-line)/600) + "]. Average testing error: " + avgError/tests);
+            
+            }
+            System.out.println();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,8 +106,8 @@ public class Train {
         double error = 0;
         for(double i : errors[3])
             error += Math.abs(i);
-
-        System.out.println("Testing Error: " + error);
+        avgError += error;
+        tests++;
     }
 
     public static void saveNetwork() throws IOException {
