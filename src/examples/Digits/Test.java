@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
+import NeuralNetwork.IActivationFunction;
 import NeuralNetwork.NeuralNetwork;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
@@ -32,6 +33,16 @@ public class Test extends PApplet {
         }
         
         size(28*pixelSize + 128, 28*pixelSize);
+
+        //ReLU
+        network.setActivationFunction(new IActivationFunction(){
+            public double activation(double x) {
+                return x < 0 ? 0 : x;
+            }
+            public double derivative(double y) {
+                return y < 0 ? 0 : 1;
+            }
+        });
     }
 
     public void setup() {
