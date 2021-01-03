@@ -24,10 +24,10 @@ public class Train {
             network = NeuralNetwork.deserialize(networkJson);
         } catch (FileNotFoundException e) {
             network = new NeuralNetwork(28 * 28, 256, 256, 10);
-            network.setLearningRate(0.00005);
+            network.setLearningRate(0.001);
         }
 
-        while(avgError > 0.1 || avgError <= prevAvgError) {
+        while(avgError <= prevAvgError) {
             avgError = 0;
             tests = 0;
             trainDataset();
