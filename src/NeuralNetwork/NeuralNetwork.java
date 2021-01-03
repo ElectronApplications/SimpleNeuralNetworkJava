@@ -8,12 +8,21 @@ public class NeuralNetwork {
     private Neuron[][] neurons;
 
     private double learningRate = 0.1;
+    private IActivationFunction activationFunction;
 
     /**
      * @param rate Learning rate
      */
     public void setLearningRate(double rate) {
         learningRate = rate;
+    }
+
+
+    /**
+     * @param activationFunction The IActivationFunction interface
+     */
+    public void setActivationFunction(IActivationFunction activationFunction) {
+        this.activationFunction = activationFunction;
     }
 
     /**
@@ -31,7 +40,15 @@ public class NeuralNetwork {
                         neurons[i][j] = new Neuron(0);   
             }
         }
-        
+
+        activationFunction = new IActivationFunction() {
+            public double activation(double x) {
+                return 1/(1 + Math.pow(Math.E, -x));
+            }
+            public double derivative(double y) {
+                return y * (1 - y);
+            }       
+        };
     }
 
     public NeuralNetwork copy() {
@@ -39,7 +56,16 @@ public class NeuralNetwork {
     }
 
     public static NeuralNetwork deserialize(String json) {
-        return new Gson().fromJson(json, NeuralNetwork.class);
+        NeuralNetwork network = new Gson().fromJson(json, NeuralNetwork.class);
+        network.setActivationFunction(new IActivationFunction(){
+            public double activation(double x) {
+                return 1/(1 + Math.pow(Math.E, -x));
+            }
+            public double derivative(double y) {
+                return y * (1 - y);
+            }   
+        });
+        return network;
     }
 
     public static String serialize(NeuralNetwork network) {
@@ -157,11 +183,13 @@ public class NeuralNetwork {
     }
 
     public double activationFunction(double x) {
-        return 1/(1 + Math.pow(Math.E, -x));
+        // return 1/(1 + Math.pow(Math.E, -x));
+        return activationFunction.activation(x);
     }
 
     public double derivativeFunction(double y) {
-        return y * (1 - y);
+        // return y * (1 - y);
+        return activationFunction.derivative(y);
     }
 
     public void mutate(double mutateFactor) {
