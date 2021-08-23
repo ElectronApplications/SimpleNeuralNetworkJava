@@ -1,6 +1,5 @@
 package examples.Digits;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,21 +8,24 @@ import java.util.Scanner;
 import NeuralNetwork.NeuralNetwork;
 
 public class Train {
+    final static int size = 28;
+
     static NeuralNetwork network;
     static double avgError = 1;
     static double prevAvgError = 2;
     static int tests;
 
     public static void main(String[] args) {
-        try {
-            Scanner networkScanner = new Scanner(new FileReader("./src/examples/Digits/network.json"));
+        try(FileReader networkFile = new FileReader("./src/examples/Digits/network.json")) {
+            Scanner networkScanner = new Scanner(networkFile);
             String networkJson = "";
             while (networkScanner.hasNext()) {
                 networkJson += networkScanner.nextLine();
             }
             network = NeuralNetwork.deserialize(networkJson);
-        } catch (FileNotFoundException e) {
-            network = new NeuralNetwork(28 * 28, 256, 256, 10);
+            networkScanner.close();
+        } catch (Exception e) {
+            network = new NeuralNetwork(size*size, 256, 256, 10);
             network.setLearningRate(0.001);
         }
 
@@ -37,9 +39,11 @@ public class Train {
     }
 
     public static void trainDataset() {
-        try {
-            Scanner trainDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_train.csv"));
-            Scanner testDataset = new Scanner(new FileReader("./src/examples/Digits/dataset/mnist_test.csv"));
+        try(FileReader trainFile = new FileReader("./src/examples/Digits/dataset/mnist_train.csv");
+            FileReader testFile = new FileReader("./src/examples/Digits/dataset/mnist_test.csv")) {
+            
+            Scanner trainDataset = new Scanner(trainFile);
+            Scanner testDataset = new Scanner(testFile);
 
             int line = 0;
             while (trainDataset.hasNext()) {
@@ -59,7 +63,9 @@ public class Train {
             }
             System.out.println();
 
-        } catch (IOException e) {
+            trainDataset.close();
+            testDataset.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,9 +77,9 @@ public class Train {
         double output[] = new double[10];
         output[outputDigit] = 1;
 
-        double[] pixels = new double[28*28];
-        for(int i = 1; i <= 28*28; i++) {
-            pixels[i-1] = Double.parseDouble(data[i]) / 256;
+        double[] pixels = new double[size*size];
+        for(int i = 1; i <= size*size; i++) {
+            pixels[i-1] = Double.parseDouble(data[i]) / 255;
         }
 
         network.train(pixels, output);
@@ -85,9 +91,9 @@ public class Train {
         double[] output = new double[10];
         output[outputDigit] = 1;
 
-        double[] pixels = new double[28*28];
-        for(int i = 1; i <= 28*28; i++) {
-            pixels[i-1] = Double.parseDouble(data[i]) / 256;
+        double[] pixels = new double[size*size];
+        for(int i = 1; i <= size*size; i++) {
+            pixels[i-1] = Double.parseDouble(data[i]) / 255;
         }
 
         double[][] errors = network.perform(output, network.predict(pixels));

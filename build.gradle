@@ -17,7 +17,27 @@ sourceSets {
 }
 
 dependencies {
-    compile 'junit:junit:4.12'
-    compile 'org.processing:core:3.3.7'
-    compile 'com.google.code.gson:gson:2.8.6'
+    implementation 'junit:junit:4.12'
+    implementation 'org.processing:core:3.3.7'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
+task digits(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "examples.Digits.Test"
+}
+
+task digitsTrain(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "examples.Digits.Train"
+}
+
+task gradient(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "examples.Gradient.Gradient"
+}
+
+task flappy(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "examples.FlappyBird.FlappyBird"
 }
