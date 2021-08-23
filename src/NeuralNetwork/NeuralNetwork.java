@@ -17,7 +17,6 @@ public class NeuralNetwork {
         learningRate = rate;
     }
 
-
     /**
      * @param activationFunction The IActivationFunction interface
      */
