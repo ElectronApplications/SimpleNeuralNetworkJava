@@ -27,8 +27,8 @@ neuralNetwork.setActivationFunction(new IActivationFunction(){
     public double activation(double x) {
         return x < 0 ? 0 : x;
     }
-    public double derivative(double y) {
-        return y < 0 ? 0 : 1;
+    public double derivative(double x) {
+        return x < 0 ? 0 : 1;
     }
 });
 ```

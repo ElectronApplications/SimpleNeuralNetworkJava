@@ -44,8 +44,9 @@ public class NeuralNetwork {
             public double activation(double x) {
                 return 1/(1 + Math.pow(Math.E, -x));
             }
-            public double derivative(double y) {
-                return y * (1 - y);
+            public double derivative(double x) {
+                double f = activation(x);
+                return f * (1 - f);
             }       
         };
     }
@@ -60,8 +61,9 @@ public class NeuralNetwork {
             public double activation(double x) {
                 return 1/(1 + Math.pow(Math.E, -x));
             }
-            public double derivative(double y) {
-                return y * (1 - y);
+            public double derivative(double x) {
+                double f = activation(x);
+                return f * (1 - f);
             }   
         });
         return network;
@@ -89,6 +91,7 @@ public class NeuralNetwork {
 
             for (int i = 0; i < neurons.length-1; i++) {
                 answers = calculateOutputs(neurons[i], answers, neurons[i+1].length-1);
+                answers = activateOutputs(answers);
                 if(i != neurons.length-2)
                     answers = addBias(answers);
             }
@@ -106,10 +109,14 @@ public class NeuralNetwork {
                 answers[j] += inputNumbers[i] * inputNeurons[i].getWeight(j);
             }
         }
-        for (int i = 0; i < outputsAmount; i++) {
-            answers[i] = activationFunction(answers[i]);
-        }
         return answers;
+    }
+
+    private double[] activateOutputs(double[] outputs) {
+        for (int i = 0; i < outputs.length; i++) {
+            outputs[i] = activationFunction(outputs[i]);
+        }
+        return outputs;
     }
 
     private double[] addBias(double[] neurons) {
@@ -139,6 +146,7 @@ public class NeuralNetwork {
         } 
 
         for (int i = 1; i < neurons.length-1; i++) {
+            answers = activateOutputs(answers);
             double prevAnswers[] = answers;
             answers = calculateOutputs(neurons[i], answers, neurons[i+1].length-1);
             answers = addBias(answers);
@@ -182,13 +190,11 @@ public class NeuralNetwork {
     }
 
     public double activationFunction(double x) {
-        // return 1/(1 + Math.pow(Math.E, -x));
         return activationFunction.activation(x);
     }
 
-    public double derivativeFunction(double y) {
-        // return y * (1 - y);
-        return activationFunction.derivative(y);
+    public double derivativeFunction(double x) {
+        return activationFunction.derivative(x);
     }
 
     public void mutate(double mutateFactor) {
