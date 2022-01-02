@@ -42,7 +42,7 @@ public class NeuralNetwork {
 
         activationFunction = new IActivationFunction() {
             public double activation(double x) {
-                return 1/(1 + Math.pow(Math.E, -x));
+                return 1/(1 + Math.exp(-x));
             }
             public double derivative(double x) {
                 double f = activation(x);
@@ -59,7 +59,7 @@ public class NeuralNetwork {
         NeuralNetwork network = new Gson().fromJson(json, NeuralNetwork.class);
         network.setActivationFunction(new IActivationFunction(){
             public double activation(double x) {
-                return 1/(1 + Math.pow(Math.E, -x));
+                return 1/(1 + Math.exp(-x));
             }
             public double derivative(double x) {
                 double f = activation(x);
