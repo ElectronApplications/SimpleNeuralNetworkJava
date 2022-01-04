@@ -22,22 +22,36 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 }
 
+task digitsJar(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    classifier = 'all'
+
+    archiveBaseName = 'Digits'
+    archiveVersion = '1.0'
+    manifest {
+        attributes 'Main-Class': 'examples.Digits.Test'
+    }
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 task digits(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = "examples.Digits.Test"
+    mainClass = "examples.Digits.Test"
 }
 
 task digitsTrain(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = "examples.Digits.Train"
+    mainClass = "examples.Digits.Train"
 }
 
 task gradient(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = "examples.Gradient.Gradient"
+    mainClass = "examples.Gradient.Gradient"
 }
 
 task flappy(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
-    main = "examples.FlappyBird.FlappyBird"
+    mainClass = "examples.FlappyBird.FlappyBird"
 }

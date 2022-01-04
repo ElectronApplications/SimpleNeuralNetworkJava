@@ -5,7 +5,4 @@ build
 .settings
 .classpath
 .project
-
-network.json
-mnist_test.csv
-mnist_train.csv
+digits
