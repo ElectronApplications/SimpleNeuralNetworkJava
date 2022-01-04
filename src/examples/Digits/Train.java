@@ -16,7 +16,7 @@ public class Train {
     static int tests;
 
     public static void main(String[] args) {
-        try(FileReader networkFile = new FileReader("./src/examples/Digits/network.json")) {
+        try(FileReader networkFile = new FileReader("digits/network.json")) {
             Scanner networkScanner = new Scanner(networkFile);
             String networkJson = "";
             while (networkScanner.hasNext()) {
@@ -25,7 +25,7 @@ public class Train {
             network = NeuralNetwork.deserialize(networkJson);
             networkScanner.close();
         } catch (Exception e) {
-            network = new NeuralNetwork(size*size, 256, 256, 10);
+            network = new NeuralNetwork(size*size, 512, 128, 32, 10);
             network.setLearningRate(0.001);
         }
 
@@ -39,8 +39,8 @@ public class Train {
     }
 
     public static void trainDataset() {
-        try(FileReader trainFile = new FileReader("./src/examples/Digits/dataset/mnist_train.csv");
-            FileReader testFile = new FileReader("./src/examples/Digits/dataset/mnist_test.csv")) {
+        try(FileReader trainFile = new FileReader("digits/mnist_train.csv");
+            FileReader testFile = new FileReader("digits/mnist_test.csv")) {
             
             Scanner trainDataset = new Scanner(trainFile);
             Scanner testDataset = new Scanner(testFile);
@@ -98,14 +98,14 @@ public class Train {
 
         double[][] errors = network.perform(output, network.predict(pixels));
         double error = 0;
-        for(double i : errors[3])
+        for(double i : errors[4])
             error += Math.abs(i);
         avgError += error;
         tests++;
     }
 
     public static void saveNetwork() throws IOException {
-        FileWriter fw = new FileWriter("./src/examples/Digits/network.json", false);
+        FileWriter fw = new FileWriter("digits/network.json", false);
         fw.write(network.serialize());
         fw.close();
     }

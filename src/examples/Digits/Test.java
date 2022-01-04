@@ -20,7 +20,7 @@ public class Test extends PApplet {
     }
 
     public void settings() {
-        try(FileReader networkFile = new FileReader("./src/examples/Digits/network.json")) {
+        try(FileReader networkFile = new FileReader("digits/network.json")) {
             Scanner networkScanner = new Scanner(networkFile);
             String networkJson = "";
             while (networkScanner.hasNext()) {
@@ -41,7 +41,7 @@ public class Test extends PApplet {
     }
 
     public void loadRandom() {
-        try(FileReader testFile = new FileReader("./src/examples/Digits/dataset/mnist_test.csv")) {
+        try(FileReader testFile = new FileReader("digits/mnist_test.csv")) {
             Scanner testScanner = new Scanner(testFile);
             for(int i = 0; i < Math.random()*10000; i++)
                 testScanner.nextLine();
