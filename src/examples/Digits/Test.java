@@ -60,9 +60,15 @@ public class Test extends PApplet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        guessDigit();
     }
 
+    @Override
     public void draw() {
+
+    }
+
+    public void guessDigit() {
         double[] inputs = new double[size*size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -105,6 +111,7 @@ public class Test extends PApplet {
                 }
             }
         }
+        guessDigit();
     }
 
     public void keyPressed(KeyEvent event) {
@@ -115,6 +122,7 @@ public class Test extends PApplet {
         else if(event.getKey() == 'l') {
             loadRandom();
         }
+        guessDigit();
     }
 
 }

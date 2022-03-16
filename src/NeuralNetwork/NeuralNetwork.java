@@ -82,10 +82,7 @@ public class NeuralNetwork {
      * @return Outputs array
      */
     public double[] predict(double inputs[]) {
-        return predictCorrected(addBias(inputs));
-    }
-
-    private double[] predictCorrected(double inputs[]) {
+        inputs = addBias(inputs);
         if(inputs.length == neurons[0].length) {
             double answers[] = inputs;
 
